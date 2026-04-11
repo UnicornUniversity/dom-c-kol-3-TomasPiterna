@@ -7,8 +7,24 @@
  * @returns {Array} of employees
  */
 export function main(dtoIn) {
-  //TODO code
-  //let dtoOut = exMain(dtoIn);
-  return dtoOut;
+//defining arrays of male and female names and workloads
+const maleNames = [
+  "Tomas", "Petr", "Marek", "Ozzy", "Jan", "Nikolas", "Sebastian", "Milan", "Norbert", "Bonifac"
+];
+const maleSurnames = [
+  "Ruzicka", "Lichy", "Ztraceny", "Skocdopole", "Novotny", "Cerny", "Nemec", "Prochazka", "Nejezchleb", "Vintrlik"
+];
+const femaleNames = [
+  "Alena", "Radmila", "Beata", "Daniela", "Julie", "Mahulena", "Silvie", "Vendula", "Marcela", "Olga"
+];
+const femaleSurnames = [
+  "Rysava", "Krizova", "Vlckova", "Stastna", "Bednarova", "Stejskalova", "Nemcova", "Vesela", "Novotna", "Bartuskova"
+];
+const workload = [10, 20, 30, 40];
+  
+function randomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+return dtoOut;
 }
 
