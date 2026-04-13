@@ -1,7 +1,9 @@
-/*
-* This code generates a list of {dtoIn.count} employees with randomly assigned names and surnames, gender,
-* birthdate (within the given age range) and workload (10, 20, 30, or 40). 
-*/
+/**
+  * This code generates a list of {dtoIn.count} employees with randomly assigned names and surnames, gender,
+  * birthdate (within the given age range) and workload (10, 20, 30, or 40). 
+  * @param {object} dtoIn contains count of employees, age limit of employees {min, max}
+  * @returns {Array} of employees
+  */
 export function main(dtoIn) {
   //male names and surnames
   const maleNames = [
@@ -59,8 +61,8 @@ export function main(dtoIn) {
     const randomDate = new Date(randomMs);
     return randomDate.toISOString();
   }
-
-  const employees = [];
+  //empty array to store generated employees
+  const dtoOut = [];
 
   //generate one employee at a time, repeat dtoIn.count times
   for (let i = 0; i < dtoIn.count; i++) {
@@ -92,10 +94,9 @@ export function main(dtoIn) {
       workload: workload
     };
 
-    employees.push(employee);
+    dtoOut.push(employee);
   }
 
-  const dtoOut = employees;
   return dtoOut;
 }
 
