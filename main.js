@@ -7,48 +7,115 @@
  * @returns {Array} of employees
  */
 export function main(dtoIn) {
-//defining arrays of male and female names and workloads
-const maleNames = [
-  "Tomas", "Petr", "Marek", "Ozzy", "Jan", "Nikolas", "Sebastian", "Milan", "Norbert", "Bonifac"
-];
-const maleSurnames = [
-  "Ruzicka", "Lichy", "Ztraceny", "Skocdopole", "Novotny", "Cerny", "Nemec", "Prochazka", "Nejezchleb", "Vintrlik"
-];
-const femaleNames = [
-  "Alena", "Radmila", "Beata", "Daniela", "Julie", "Mahulena", "Silvie", "Vendula", "Marcela", "Olga"
-];
-const femaleSurnames = [
-  "Rysava", "Krizova", "Vlckova", "Stastna", "Bednarova", "Stejskalova", "Nemcova", "Vesela", "Novotna", "Bartuskova"
-];
-const workload = [10, 20, 30, 40];
-  
-//returns a random whole number between min and max  
-function randomInt(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+  // 10 male names
+  const maleNames = [
+    "Ozzy", "Jan", "Tomas", "Martin", "Lukas",
+    "Petr", "Ondrej", "Marek", "David", "Michal"
+  ];
+
+  // 10 male surnames
+  const maleSurnames = [
+    "Novak", "Svoboda", "Novotny", "Dvorak", "Cerny",
+    "Prochazka", "Kucera", "Vesely", "Horacek", "Blazek"
+  ];
+
+  // 10 female names
+  const femaleNames = [
+    "Tereza", "Jana", "Lucie", "Petra", "Katerina",
+    "Martina", "Eva", "Lenka", "Monika", "Veronika"
+  ];
+
+  // 10 female surnames (Czech female surnames end with -ova or -a)
+  const femaleSurnames = [
+    "Novakova", "Svobodova", "Novotna", "Dvorakova", "Cerna",
+    "Prochrazkova", "Kucerova", "Vesela", "Horackova", "Blazkova"
+  ];
+
+  // Possible workload values
+  const workloads = [10, 20, 30, 40];
+
+  // Returns a random whole number between min and max (inclusive)
+  function randomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  // Returns a random item from an array
+  function randomFrom(arr) {
+    return arr[randomInt(0, arr.length - 1)];
+  }
+
+  // Returns a random birthdate as an ISO string based on the age range
+  function randomBirthdate(minAge, maxAge) {
+    const today = new Date();
+
+    // One year in milliseconds (365.25 days accounts for leap years)
+    const oneYearMs = 365.25 * 24 * 60 * 60 * 1000;
+
+    // The oldest possible birthdate - subtract maxAge years from today
+    const oldestBirthdate = new Date(today - maxAge * oneYearMs);
+
+    // The youngest possible birthdate - subtract minAge years from today
+    const youngestBirthdate = new Date(today - minAge * oneYearMs);
+
+    // Convert both dates to milliseconds so we can pick a random moment between them
+    const oldestMs = oldestBirthdate.getTime();
+    const youngestMs = youngestBirthdate.getTime();
+
+    // Pick a random millisecond value between the oldest and youngest birthdate
+    const randomMs = oldestMs + Math.random() * (youngestMs - oldestMs);
+
+    // Create a new date from that random millisecond value and return it as ISO string
+    const randomDate = new Date(randomMs);
+    return randomDate.toISOString();
+  }
+
+  // This is the list we will fill up and return at the end
+  const employees = [];
+
+  // Generate one employee at a time, repeat dtoIn.count times
+  for (let i = 0; i < dtoIn.count; i++) {
+
+    // Randomly pick gender - 0 means male, 1 means female
+    let gender;
+    let name;
+    let surname;
+
+    if (randomInt(0, 1) === 0) {
+      gender = "male";
+      name = randomFrom(maleNames);
+      surname = randomFrom(maleSurnames);
+    } else {
+      gender = "female";
+      name = randomFrom(femaleNames);
+      surname = randomFrom(femaleSurnames);
+    }
+
+    const birthdate = randomBirthdate(dtoIn.age.min, dtoIn.age.max);
+    const workload = randomFrom(workloads);
+
+    // Build the employee object and add it to the list
+    const employee = {
+      gender: gender,
+      birthdate: birthdate,
+      name: name,
+      surname: surname,
+      workload: workload
+    };
+
+    employees.push(employee);
+  }
+
+  const dtoOut = employees;
+  return dtoOut;
 }
-//returns random item for an array
-function randomFrom(arr) {
-  return arr[randomInt(0, arr.length - 1)];
-}
 
-//returns a random birthdate based on the age range
-function randomBirthdate(minAge, maxAge) {
-  const today = new Date();
-//one year in miliseconds
-const oneYearMs = 365.25 * 24 * 60 * 60 * 1000
+// --- TEST ---
+const dtoIn = {
+  count: 10,
+  age: {
+    min: 19,
+    max: 35
+  }
+};
 
-//the oldest possible birthdate calculated by substracting maxAge years from today's date
-const oldestBirthdate = new Date (today - maxAge * oneYearMs);
-
-//the youngest possible birthdate
-const youngestBirthdate = new Date (today - minAge * oneYearMs);
-
-//convert both dates to milliseconds
-const oldestMs = oldestBirthdate.getTime();
-const youngestMs = youngestBirthdate.getTime();
-
-//pick a random value between the oldest and youngest birthdate
-const randomMs = oldestMs + Math.random() * (youngestMs - oldestMs);
-return dtoOut;
-}
-
+console.log(main(dtoIn));
