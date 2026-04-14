@@ -100,13 +100,13 @@ export function main(dtoIn) {
   return dtoOut;
 }
 
-// --- TEST ---
-const dtoIn = {
-  count: 10,
-  age: {
-    min: 19,
-    max: 35
-  }
-};
-
-console.log(main(dtoIn));
+ // --- TEST ---
+ //  const dtoIn = {
+ //    count: 10,
+ //    age: {
+ //      min: 19,
+ //      max: 35
+ //    }
+ //  };
+  
+ //  console.log(main(dtoIn));
